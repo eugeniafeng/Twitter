@@ -22,6 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_toStartOf="@+id/tvRelativeTimestamp"
         android:layout_toEndOf="@+id/ivProfileImage"
         tools:text="eugeniaFBU" />
 
