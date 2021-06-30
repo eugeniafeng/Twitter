@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,7 +84,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
         public void bind(Tweet tweet) {
             tvBody.setText(tweet.body);
-            tvScreenName.setText(tweet.user.screenName);
+            // bold the user's name, but not the screen name
+            tvScreenName.setText(Html.fromHtml("<b>" + tweet.user.name + "</b> @" + tweet.user.screenName));
             tvRelativeTimestamp.setText(tweet.relativeTimestamp);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
 

@@ -25,7 +25,9 @@
         android:layout_marginEnd="10dp"
         android:layout_toStartOf="@+id/tvRelativeTimestamp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        tools:text="eugeniaFBU" />
+        android:maxLines="1"
+        android:ellipsize="end"
+        tools:text="Eugenia Feng \@eugeniaFBU" />
 
     <TextView
         android:id="@+id/tvBody"
@@ -43,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:gravity="right"
+        android:gravity="end"
         tools:text="10 minutes ago" />
 
     <ImageView
@@ -51,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvBody"
-        android:layout_alignLeft="@+id/tvBody"
+        android:layout_alignStart="@+id/tvBody"
         android:layout_marginTop="3dp"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
