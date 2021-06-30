@@ -87,6 +87,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvRelativeTimestamp.setText(tweet.relativeTimestamp);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
 
+            // Load embedded media if present
             if (tweet.mediaUrl != null) {
                 Log.d("TweetsAdapter", tweet.mediaUrl);
                 ivEmbed.setVisibility(View.VISIBLE);

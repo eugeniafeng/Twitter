@@ -82,7 +82,7 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.compose) {
             // Compose icon has been selected
-            Toast.makeText(this, "Compose!", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Compose!", Toast.LENGTH_SHORT).show();
             // Navigate to the compose activity
             Intent intent = new Intent(this, ComposeActivity.class);
             startActivityForResult(intent, REQUEST_CODE);
@@ -101,6 +101,7 @@ public class TimelineActivity extends AppCompatActivity {
             tweets.add(0, tweet);
             // Update the adapter
             adapter.notifyItemInserted(0);
+            // Scroll back up to the top
             rvTweets.smoothScrollToPosition(0);
         }
         super.onActivityResult(requestCode, resultCode, data);

@@ -34,6 +34,7 @@ public class Tweet {
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.relativeTimestamp = getRelativeTime(tweet.createdAt);
 
+        // Save the first entity/image to the mediaUrl
         if(!jsonObject.isNull("extended_entities")){
             JSONObject media = jsonObject.getJSONObject("extended_entities").getJSONArray("media").getJSONObject(0);
             tweet.mediaUrl = String.format("%s:large", media.getString("media_url_https"));
