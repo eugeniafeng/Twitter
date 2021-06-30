@@ -11,16 +11,12 @@ import org.parceler.Parcel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 @Parcel
 public class Tweet {
-
-    private static final int SECOND_MILLIS = 1000;
-    private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
-    private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
-    private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
     public String body;
     public String createdAt;
@@ -36,7 +32,7 @@ public class Tweet {
         tweet.body = jsonObject.getString("full_text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
-        tweet.relativeTimestamp = getRelativeTimeAgo(tweet.createdAt);
+        tweet.relativeTimestamp = getRelativeTime(tweet.createdAt);
 
         if(!jsonObject.isNull("extended_entities")){
             JSONObject media = jsonObject.getJSONObject("extended_entities").getJSONArray("media").getJSONObject(0);
@@ -54,31 +50,40 @@ public class Tweet {
         return tweets;
     }
 
-    // Modified from https://gist.github.com/nesquena/f786232f5ef72f6e10a7
-    public static String getRelativeTimeAgo(String rawJsonDate) {
+    // Modified from https://github.com/ewilden/TimeFormatter
+    public static String getRelativeTime(String rawJsonDate) {
+        String time = "";
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
-        sf.setLenient(true);
-
+        SimpleDateFormat format = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        format.setLenient(true);
         try {
-            long time = sf.parse(rawJsonDate).getTime();
-            long now = System.currentTimeMillis();
-
-            final long diff = now - time;
-            if (diff < MINUTE_MILLIS) {
-                return "just now";
-            } else if (diff < 60 * MINUTE_MILLIS) {
-                return diff / MINUTE_MILLIS + " m";
-            } else if (diff < 24 * HOUR_MILLIS) {
-                return diff / HOUR_MILLIS + " h";
-            } else {
-                return diff / DAY_MILLIS + " d";
+            long diff = (System.currentTimeMillis() - format.parse(rawJsonDate).getTime()) / 1000;
+            if (diff < 5)
+                time = "Just now";
+            else if (diff < 60)
+                time = String.format(Locale.ENGLISH, "%ds",diff);
+            else if (diff < 60 * 60)
+                time = String.format(Locale.ENGLISH, "%dm", diff / 60);
+            else if (diff < 60 * 60 * 24)
+                time = String.format(Locale.ENGLISH, "%dh", diff / (60 * 60));
+            else if (diff < 60 * 60 * 24 * 30)
+                time = String.format(Locale.ENGLISH, "%dd", diff / (60 * 60 * 24));
+            else {
+                Calendar now = Calendar.getInstance();
+                Calendar then = Calendar.getInstance();
+                then.setTime(format.parse(rawJsonDate));
+                if (now.get(Calendar.YEAR) == then.get(Calendar.YEAR)) {
+                    time = then.get(Calendar.DAY_OF_MONTH) + " "
+                            + then.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US);
+                } else {
+                    time = then.get(Calendar.DAY_OF_MONTH) + " "
+                            + then.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US)
+                            + " " + (then.get(Calendar.YEAR) - 2000);
+                }
             }
-        } catch (ParseException e) {
-            Log.i("Tweet", "getRelativeTimeAgo failed");
-            e.printStackTrace();
+        }  catch (ParseException e) {
+            Log.i("Tweet", "getRelativeTime failed", e);
         }
-
-        return "";
+        return time;
     }
 }
