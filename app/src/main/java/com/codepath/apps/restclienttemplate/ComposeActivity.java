@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.codepath.apps.restclienttemplate.databinding.ActivityComposeBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.google.android.material.snackbar.Snackbar;
@@ -26,33 +27,27 @@ public class ComposeActivity extends AppCompatActivity {
     public static final String TAG = "ComposeActivity";
     public static final int MAX_TWEET_LENGTH = 280;
 
-    EditText etCompose;
-    Button btnTweet;
-    RelativeLayout rlCompose;
     TwitterClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_compose);
+        final ActivityComposeBinding binding = ActivityComposeBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         client = TwitterApplication.getRestClient(this);
 
-        etCompose = findViewById(R.id.etCompose);
-        btnTweet = findViewById(R.id.btnTweet);
-        rlCompose = findViewById(R.id.rlCompose);
-
         // Set click listener on button
-        btnTweet.setOnClickListener(new View.OnClickListener() {
+        binding.btnTweet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String tweetContent = etCompose.getText().toString();
+            String tweetContent = binding.etCompose.getText().toString();
             if (tweetContent.isEmpty()) {
-                Snackbar.make(rlCompose, R.string.empty_tweet, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(binding.rlCompose, R.string.empty_tweet, Snackbar.LENGTH_LONG).show();
                 return;
             }
             if (tweetContent.length() > MAX_TWEET_LENGTH) {
-                Snackbar.make(rlCompose, R.string.long_tweet, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(binding.rlCompose, R.string.long_tweet, Snackbar.LENGTH_LONG).show();
                 return;
             }
             // Make an API call to Twitter to publish the tweet

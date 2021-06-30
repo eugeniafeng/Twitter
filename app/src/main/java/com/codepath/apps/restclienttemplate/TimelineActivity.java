@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
@@ -31,33 +32,30 @@ public class TimelineActivity extends AppCompatActivity {
     public static final String TAG = "TimelineActivity";
     private final int REQUEST_CODE = 20;
 
-    private SwipeRefreshLayout swipeContainer;
     TwitterClient client;
-    RecyclerView rvTweets;
     List<Tweet> tweets;
     TweetsAdapter adapter;
+    ActivityTimelineBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeline);
+        binding = ActivityTimelineBinding.inflate(getLayoutInflater());
+
+        setContentView(binding.getRoot());
 
         client = TwitterApplication.getRestClient(this);
 
-        // Find the recycler view
-        rvTweets = findViewById(R.id.rvTweets);
         // Initialize the list of tweets and adapter
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
         // Recycler view setup: layout manager and the adapter
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
-        rvTweets.setAdapter(adapter);
+        binding.rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        binding.rvTweets.setAdapter(adapter);
         populateHomeTimeline();
 
-        // Lookup the swipe container view
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
-        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        binding.swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // Refresh the list
@@ -65,7 +63,7 @@ public class TimelineActivity extends AppCompatActivity {
             }
         });
         // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+        binding.swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
@@ -102,7 +100,7 @@ public class TimelineActivity extends AppCompatActivity {
             // Update the adapter
             adapter.notifyItemInserted(0);
             // Scroll back up to the top
-            rvTweets.smoothScrollToPosition(0);
+            binding.rvTweets.smoothScrollToPosition(0);
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -142,7 +140,7 @@ public class TimelineActivity extends AppCompatActivity {
                     // Clear out old items before appending in the new ones
                     adapter.clear();
                     adapter.addAll(Tweet.fromJsonArray(json.jsonArray));
-                    swipeContainer.setRefreshing(false);
+                    binding.swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG, "Json exception", e);
                 }

@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.w3c.dom.Text;
@@ -34,8 +35,8 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_tweet, parent, false);
-        return new ViewHolder(view);
+        ItemTweetBinding binding = ItemTweetBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new ViewHolder(binding);
     }
 
     // Bind values based on the position of the element
@@ -67,34 +68,26 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     // Define a viewholder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView ivProfileImage;
-        TextView tvBody;
-        TextView tvScreenName;
-        TextView tvRelativeTimestamp;
-        ImageView ivEmbed;
+        ItemTweetBinding binding;
 
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
-            tvBody = itemView.findViewById(R.id.tvBody);
-            tvScreenName = itemView.findViewById(R.id.tvScreenName);
-            tvRelativeTimestamp = itemView.findViewById(R.id.tvRelativeTimestamp);
-            ivEmbed = itemView.findViewById(R.id.ivEmbed);
+        public ViewHolder(@NonNull ItemTweetBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         public void bind(Tweet tweet) {
-            tvBody.setText(tweet.body);
+            binding.tvBody.setText(tweet.body);
             // bold the user's name, but not the screen name
-            tvScreenName.setText(Html.fromHtml("<b>" + tweet.user.name + "</b> @" + tweet.user.screenName));
-            tvRelativeTimestamp.setText(tweet.relativeTimestamp);
-            Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
+            binding.tvScreenName.setText(Html.fromHtml("<b>" + tweet.user.name + "</b> @" + tweet.user.screenName));
+            binding.tvRelativeTimestamp.setText(tweet.relativeTimestamp);
+            Glide.with(context).load(tweet.user.profileImageUrl).into(binding.ivProfileImage);
 
             // Load embedded media if present
             if (tweet.mediaUrl != null) {
-                ivEmbed.setVisibility(View.VISIBLE);
-                Glide.with(context).load(tweet.mediaUrl).into(ivEmbed);
+                binding.ivEmbed.setVisibility(View.VISIBLE);
+                Glide.with(context).load(tweet.mediaUrl).into(binding.ivEmbed);
             } else {
-                ivEmbed.setVisibility(View.GONE);
+                binding.ivEmbed.setVisibility(View.GONE);
             }
         }
     }
