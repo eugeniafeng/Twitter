@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.parceler.Parcels;
@@ -25,6 +28,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     EditText etCompose;
     Button btnTweet;
+    RelativeLayout rlCompose;
     TwitterClient client;
 
     @Override
@@ -36,6 +40,7 @@ public class ComposeActivity extends AppCompatActivity {
 
         etCompose = findViewById(R.id.etCompose);
         btnTweet = findViewById(R.id.btnTweet);
+        rlCompose = findViewById(R.id.rlCompose);
 
         // Set click listener on button
         btnTweet.setOnClickListener(new View.OnClickListener() {
@@ -43,14 +48,13 @@ public class ComposeActivity extends AppCompatActivity {
             public void onClick(View v) {
             String tweetContent = etCompose.getText().toString();
             if (tweetContent.isEmpty()) {
-                // Try using an Android snackbar alert
-                Toast.makeText(ComposeActivity.this, "Sorry, your tweet cannot be empty", Toast.LENGTH_SHORT).show();
+                Snackbar.make(rlCompose, R.string.empty_tweet, Snackbar.LENGTH_LONG).show();
                 return;
             }
             if (tweetContent.length() > MAX_TWEET_LENGTH) {
-                Toast.makeText(ComposeActivity.this, "Sorry, your tweet is too long", Toast.LENGTH_SHORT).show();
+                Snackbar.make(rlCompose, R.string.long_tweet, Snackbar.LENGTH_LONG).show();
+                return;
             }
-            Toast.makeText(ComposeActivity.this, tweetContent, Toast.LENGTH_SHORT).show();
             // Make an API call to Twitter to publish the tweet
             client.publishTweet(tweetContent, new JsonHttpResponseHandler() {
                 @Override

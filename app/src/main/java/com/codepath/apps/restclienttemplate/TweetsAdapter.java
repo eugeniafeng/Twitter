@@ -89,11 +89,9 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
 
             // Load embedded media if present
             if (tweet.mediaUrl != null) {
-                Log.d("TweetsAdapter", tweet.mediaUrl);
                 ivEmbed.setVisibility(View.VISIBLE);
                 Glide.with(context).load(tweet.mediaUrl).into(ivEmbed);
             } else {
-                Log.d("TweetsAdapter", "Set invisible: " + tweet.body);
                 ivEmbed.setVisibility(View.GONE);
             }
         }
