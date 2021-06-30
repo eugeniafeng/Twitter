@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,18 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         return tweets.size();
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        tweets.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Tweet> list) {
+        tweets.addAll(list);
+        notifyDataSetChanged();
+    }
+
     // Define a viewholder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -57,6 +70,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         TextView tvBody;
         TextView tvScreenName;
         TextView tvRelativeTimestamp;
+        ImageView ivEmbed;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +78,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvBody = itemView.findViewById(R.id.tvBody);
             tvScreenName = itemView.findViewById(R.id.tvScreenName);
             tvRelativeTimestamp = itemView.findViewById(R.id.tvRelativeTimestamp);
+            ivEmbed = itemView.findViewById(R.id.ivEmbed);
         }
 
         public void bind(Tweet tweet) {
@@ -71,6 +86,15 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             tvScreenName.setText(tweet.user.screenName);
             tvRelativeTimestamp.setText(tweet.relativeTimestamp);
             Glide.with(context).load(tweet.user.profileImageUrl).into(ivProfileImage);
+
+            if (tweet.mediaUrl != null) {
+                Log.d("TweetsAdapter", tweet.mediaUrl);
+                ivEmbed.setVisibility(View.VISIBLE);
+                Glide.with(context).load(tweet.mediaUrl).into(ivEmbed);
+            } else {
+                Log.d("TweetsAdapter", "Set invisible: " + tweet.body);
+                ivEmbed.setVisibility(View.GONE);
+            }
         }
     }
 

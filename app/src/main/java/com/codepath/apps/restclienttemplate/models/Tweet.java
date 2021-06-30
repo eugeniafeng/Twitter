@@ -17,25 +17,32 @@ import java.util.Locale;
 @Parcel
 public class Tweet {
 
-    public String body;
-    public String createdAt;
-    public String relativeTimestamp;
-    public User user;
-
-    // Empty constructor needed by the Parceler library
-    public Tweet() {}
-
     private static final int SECOND_MILLIS = 1000;
     private static final int MINUTE_MILLIS = 60 * SECOND_MILLIS;
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
+    public String body;
+    public String createdAt;
+    public String relativeTimestamp;
+    public String mediaUrl;
+    public User user;
+
+    // Empty constructor needed by the Parceler library
+    public Tweet() {}
+
     public static Tweet fromJson(JSONObject jsonObject) throws JSONException {
         Tweet tweet = new Tweet();
-        tweet.body = jsonObject.getString("text");
+        tweet.body = jsonObject.getString("full_text");
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.relativeTimestamp = getRelativeTimeAgo(tweet.createdAt);
+
+        if(!jsonObject.isNull("extended_entities")){
+            JSONObject media = jsonObject.getJSONObject("extended_entities").getJSONArray("media").getJSONObject(0);
+            tweet.mediaUrl = String.format("%s:large", media.getString("media_url_https"));
+        }
+
         return tweet;
     }
 

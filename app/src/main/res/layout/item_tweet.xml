@@ -44,4 +44,17 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         tools:text="10 minutes ago" />
+
+    <ImageView
+        android:id="@+id/ivEmbed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBody"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="0dp"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+        tools:srcCompat="@tools:sample/backgrounds/scenic"
+        tools:visibility="visible" />
 </RelativeLayout>
