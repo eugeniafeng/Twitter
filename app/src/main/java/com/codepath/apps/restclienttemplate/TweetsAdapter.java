@@ -94,6 +94,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
                 binding.ivEmbed.setVisibility(View.GONE);
             }
 
+            // Reply button goes to compose activity
             binding.ivReply.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -40,6 +40,7 @@ public class ComposeActivity extends AppCompatActivity {
 
         client = TwitterApplication.getRestClient(this);
         String source = getIntent().getExtras().getString(POST_TYPE);
+        // If replying, add the original author's screen name to the front of the tweet
         if ("reply".equals(source)) {
             String author = "@" + getIntent().getExtras().getString(AUTHOR) + " ";
             binding.etCompose.setText(author);
