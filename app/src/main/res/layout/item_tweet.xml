@@ -61,7 +61,7 @@
         tools:visibility="visible" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivReply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivEmbed"
@@ -70,7 +70,7 @@
         app:srcCompat="@drawable/selector_reply" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/ivLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivEmbed"
@@ -80,13 +80,13 @@
         app:srcCompat="@drawable/ic_vector_heart_stroke" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/ivRetweet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivEmbed"
         android:layout_marginTop="3dp"
-        android:layout_toStartOf="@+id/imageView2"
-        android:layout_toEndOf="@+id/imageView"
+        android:layout_toStartOf="@+id/ivLike"
+        android:layout_toEndOf="@+id/ivReply"
         app:srcCompat="@drawable/selector_retweet" />
 
 </RelativeLayout>

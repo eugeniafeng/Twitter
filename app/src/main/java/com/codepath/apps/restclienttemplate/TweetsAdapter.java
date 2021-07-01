@@ -1,6 +1,8 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +23,8 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
+
+    private final int REQUEST_CODE = 20;
 
     Context context;
     List<Tweet> tweets;
@@ -75,7 +79,7 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             this.binding = binding;
         }
 
-        public void bind(Tweet tweet) {
+        public void bind(final Tweet tweet) {
             binding.tvBody.setText(tweet.body);
             // bold the user's name, but not the screen name
             binding.tvScreenName.setText(Html.fromHtml("<b>" + tweet.user.name + "</b> @" + tweet.user.screenName));
@@ -89,6 +93,16 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
             } else {
                 binding.ivEmbed.setVisibility(View.GONE);
             }
+
+            binding.ivReply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, ComposeActivity.class);
+                    intent.putExtra(ComposeActivity.POST_TYPE, "reply");
+                    intent.putExtra(ComposeActivity.AUTHOR, tweet.user.screenName);
+                    ((Activity) context).startActivityForResult(intent, REQUEST_CODE);
+                }
+            });
         }
     }
 

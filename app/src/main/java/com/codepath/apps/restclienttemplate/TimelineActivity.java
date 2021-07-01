@@ -89,6 +89,7 @@ public class TimelineActivity extends AppCompatActivity {
 //            Toast.makeText(this, "Compose!", Toast.LENGTH_SHORT).show();
             // Navigate to the compose activity
             Intent intent = new Intent(this, ComposeActivity.class);
+            intent.putExtra(ComposeActivity.POST_TYPE, "post");
             startActivityForResult(intent, REQUEST_CODE);
             return true;
         }
