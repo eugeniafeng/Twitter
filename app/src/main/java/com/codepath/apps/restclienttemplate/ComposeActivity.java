@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -74,7 +75,6 @@ public class ComposeActivity extends AppCompatActivity {
                     Log.e(TAG, "onFailure to publish tweet", throwable);
                 }
             });
-
             }
         });
     }

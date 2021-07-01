@@ -25,8 +25,8 @@
         android:layout_marginEnd="10dp"
         android:layout_toStartOf="@+id/tvRelativeTimestamp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:maxLines="1"
         android:ellipsize="end"
+        android:maxLines="1"
         tools:text="Eugenia Feng \@eugeniaFBU" />
 
     <TextView
@@ -55,8 +55,38 @@
         android:layout_below="@+id/tvBody"
         android:layout_alignStart="@+id/tvBody"
         android:layout_marginTop="3dp"
-        android:scaleType="fitXY"
         android:adjustViewBounds="true"
+        android:scaleType="fitXY"
         tools:srcCompat="@tools:sample/backgrounds/scenic"
         tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivEmbed"
+        android:layout_alignStart="@+id/ivEmbed"
+        android:layout_marginTop="3dp"
+        app:srcCompat="@drawable/selector_reply" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivEmbed"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="10dp"
+        app:srcCompat="@drawable/ic_vector_heart_stroke" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivEmbed"
+        android:layout_marginTop="3dp"
+        android:layout_toStartOf="@+id/imageView2"
+        android:layout_toEndOf="@+id/imageView"
+        app:srcCompat="@drawable/selector_retweet" />
+
 </RelativeLayout>

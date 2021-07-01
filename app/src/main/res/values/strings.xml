@@ -10,5 +10,6 @@
     <string name="what_s_happening">What\'s happening?</string>
     <string name="empty_tweet">Sorry, your tweet cannot be empty.</string>
     <string name="long_tweet">Sorry, your tweet is too long.</string>
+    <string name="compose">Compose</string>
 
 </resources>
