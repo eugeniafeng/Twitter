@@ -3,6 +3,12 @@ package com.codepath.apps.restclienttemplate.models;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,12 +22,30 @@ import java.util.List;
 import java.util.Locale;
 
 @Parcel
+@Entity(foreignKeys = @ForeignKey(entity=User.class, parentColumns="id", childColumns="userId"))
 public class Tweet {
 
+    @ColumnInfo
+    @PrimaryKey
+    public long id;
+
+    @ColumnInfo
     public String body;
+
+    @ColumnInfo
     public String createdAt;
+
+    @ColumnInfo
     public String relativeTimestamp;
+
+    @ColumnInfo
     public String mediaUrl;
+
+    // Add user id to be able to relate user and tweet tables
+    @ColumnInfo
+    public long userId;
+
+    @Ignore
     public User user;
 
     // Empty constructor needed by the Parceler library
@@ -31,7 +55,9 @@ public class Tweet {
         Tweet tweet = new Tweet();
         tweet.body = jsonObject.getString("full_text");
         tweet.createdAt = jsonObject.getString("created_at");
+        tweet.id = jsonObject.getLong("id");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
+        tweet.userId = tweet.user.id;
         tweet.relativeTimestamp = getRelativeTime(tweet.createdAt);
 
         // Save the first entity/image to the mediaUrl
