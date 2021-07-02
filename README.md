@@ -52,7 +52,7 @@ GIF created with [LiceCap](https://www.cockos.com/licecap/).
 
 ## Notes
 
-Describe any challenges encountered while building the app.
+Twitter's rate limit of 15 requests every 15 minutes sometimes got in the way of testing.
 
 ## Open-source libraries used
 
